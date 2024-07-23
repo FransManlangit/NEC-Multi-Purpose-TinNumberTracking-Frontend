@@ -19,6 +19,7 @@ export default function Profile() {
   const [mobileNumber, setMobileNumber] = useState("");
   const [companyId, setCompanyId] = useState("");
   const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
   const [avatar, setAvatar] = useState(null);
   const [errors, setErrors] = useState({});
   const [fileList, setFileList] = useState([]);
@@ -34,6 +35,7 @@ export default function Profile() {
   
     if (user) {
       setName(user.name);
+      setRole(user.role);
       setMobileNumber(user.mobileNumber);
       setCompanyId(user.companyId);
       setEmail(user.email);
@@ -56,6 +58,7 @@ export default function Profile() {
     let errors = {};
 
     if (!name) errors.name = "Name is required";
+    if (!role) errors.name = "Role is required";
     if (!companyId) errors.companyId = "Company Id is required";
 
     if (!mobileNumber) {
@@ -118,6 +121,7 @@ export default function Profile() {
     const formData = new FormData();
 
     formData.set("name", name);
+    formData.set("role", role);
     formData.set("companyId", companyId);
     formData.set("mobileNumber", mobileNumber);
 
@@ -129,21 +133,20 @@ export default function Profile() {
   };
 
   return (
-    <div className="flex flex-1 flex-col container mx-auto py-4">
+    <div className="flex flex-1 flex-col container mx-auto py-20">
       <div className="flex relative gap-6">
         <div className="sticky top-0">
           <ProfileSidebar />
         </div>
 
-        <form className="flex flex-1 flex-col gap-4">
-          <div>
-            <p className="text-2xl">My Information</p>
+        <form className="flex flex-1 flex-col gap-20">
+          <div className="items-center">
+            <p className="text-4xl">My Information</p>
           </div>
-
-          <div className="flex-1 bg-zinc-100 p-8 space-y-4">
+            <div className="flex flex-col space-y-12">
             <div className="grid grid-cols-2 grid-rows-1 gap-4">
               <div className="space-y-1">
-                <p>
+                <p className="font-semibold">
                   Name <span className="text-red-500">*</span>
                 </p>
                 <Input
@@ -158,50 +161,74 @@ export default function Profile() {
                   <p className="text-red-500">{errors.name}</p>
                 )}
               </div>
+              </div>
+              <div className="grid grid-cols-2 grid-rows-1 gap-4">
               <div className="space-y-1">
-                <p>
-                  Company Id <span className="text-red-500">*</span>
+                <p className="font-semibold">
+                  Role <span className="text-red-500">*</span>
+                </p>
+                <Input
+                  size="large"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  variant="filled"
+                  block
+                  status={errors.role ? "error" : null}
+                />
+                {errors.role && (
+                  <p className="text-red-500">{errors.role}</p>
+                )}
+              </div>
+              </div>
+               <div className="grid grid-cols-2 grid-rows-1 gap-4">
+              <div className="space-y-1">
+                <p className="font-semibold">
+                Company Id <span className="text-red-500">*</span>
                 </p>
                 <Input
                   size="large"
                   value={companyId}
                   onChange={(e) => setCompanyId(e.target.value)}
                   variant="filled"
+                  block
                   status={errors.companyId ? "error" : null}
                 />
                 {errors.companyId && (
                   <p className="text-red-500">{errors.companyId}</p>
                 )}
               </div>
-            </div>
-
-            <div className="grid grid-cols-2 grid-rows-1 gap-4">
+              </div>
+              <div className="grid grid-cols-2 grid-rows-1 gap-4">
               <div className="space-y-1">
-                <p>
-                  Mobile Number <span className="text-red-500">*</span>
+                <p className="font-semibold">
+                Mobile Number <span className="text-red-500">*</span>
                 </p>
                 <Input
                   size="large"
                   value={mobileNumber}
                   onChange={(e) => setMobileNumber(e.target.value)}
                   variant="filled"
+                  block
                   status={errors.mobileNumber ? "error" : null}
                 />
-                {errors.mobileNumber && <p className="text-red-500">{errors.mobileNumber}</p>}
+                {errors.mobileNumber && (
+                  <p className="text-red-500">{errors.mobileNumber}</p>
+                )}
               </div>
-
+              </div>
               <div className="space-y-1">
-                <p>Profile Avatar</p>
+                <p className="font-semibold">Profile Avatar</p>
 
                 <Upload {...fileProps} maxCount={1}>
                   <Button icon={<UploadOutlined />}>Upload Avatar</Button>
                 </Upload>
               </div>
             </div>
-          </div>
+         
 
-          <div className="flex flex-1 flex-row justify-end">
-            <Button size="large" type="primary" onClick={() => updateHandler()}>
+          <div className="flex flex-1 flex-row justify-center">
+          <Button className="w-60 h-14 py-4 px-6 font-poppins font-medium text-[18px] text-primary bg-[#1E4BCA] 
+          bg-blue-gradient rounded-[10px] outline-none" onClick={() => updateHandler()}>
               Save
             </Button>
           </div>
