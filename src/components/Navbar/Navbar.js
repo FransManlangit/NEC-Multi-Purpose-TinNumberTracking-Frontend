@@ -119,10 +119,12 @@ export default function Navbar() {
                       </a>
                     </MenuItem>
                     <MenuItem>
-                      <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 focus:bg-white/10">
+                      <a className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 focus:bg-white/10"
+                       href="/memberlist"
+                      >
                         <IoIosPeople className="w-6 h-6 fill-white/60" />
                         Member List
-                      </button>
+                      </a>
                     </MenuItem>
                     <div className="my-1 h-px bg-white/5" />
                     <MenuItem>

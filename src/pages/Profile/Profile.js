@@ -24,15 +24,14 @@ export default function Profile() {
   const [errors, setErrors] = useState({});
   const [fileList, setFileList] = useState([]);
 
-  const { user = {}, isLogout } = useSelector((state) => state.auth || {});
+  const { user = {} } = useSelector((state) => state.auth || {});
   const { error, isUpdated, loading } = useSelector((state) => state.user || {});
-
 
   useEffect(() => {
     console.log("user:", user);
     console.log("isUpdated:", isUpdated);
     console.log("error:", error);
-  
+
     if (user) {
       setName(user.name);
       setRole(user.role);
@@ -40,31 +39,30 @@ export default function Profile() {
       setCompanyId(user.companyId);
       setEmail(user.email);
     }
-  
+
     if (isUpdated) {
       message.success("Profile Successfully Updated");
       dispatch(loadUser());
       dispatch({ type: UPDATE_PROFILE_RESET });
     }
-  
+
     if (error) {
       message.error(error);
       dispatch(clearErrors());
     }
   }, [user, dispatch, error, isUpdated]);
-  
 
   const validateForm = () => {
     let errors = {};
 
     if (!name) errors.name = "Name is required";
-    if (!role) errors.name = "Role is required";
+    if (!role) errors.role = "Role is required";
     if (!companyId) errors.companyId = "Company Id is required";
 
     if (!mobileNumber) {
       errors.mobileNumber = "Mobile number is required";
     } else {
-      const phonePattern = /^[0-9]{10,15}$/; // Adjust the regex according to your phone format
+      const phonePattern = /^[0-9]{10,15}$/;
       if (!phonePattern.test(mobileNumber)) {
         errors.mobileNumber = "Invalid mobile number";
       }
@@ -80,7 +78,6 @@ export default function Profile() {
     }
 
     setErrors(errors);
-
     return Object.keys(errors).length === 0;
   };
 
@@ -97,7 +94,7 @@ export default function Profile() {
     },
     beforeUpload: () => false,
     onChange: (info) => {
-      const file = info.fileList[0]?.originFileObj; // Get the actual File/Blob object
+      const file = info.fileList[0]?.originFileObj;
 
       if (file) {
         const reader = new FileReader();
@@ -107,8 +104,7 @@ export default function Profile() {
         };
 
         reader.readAsDataURL(file);
-
-        setFileList(info.fileList); // Update fileList state
+        setFileList(info.fileList);
       }
     },
   };
@@ -119,7 +115,6 @@ export default function Profile() {
     }
 
     const formData = new FormData();
-
     formData.set("name", name);
     formData.set("role", role);
     formData.set("companyId", companyId);
@@ -143,7 +138,7 @@ export default function Profile() {
           <div className="items-center">
             <p className="text-4xl">My Information</p>
           </div>
-            <div className="flex flex-col space-y-12">
+          <div className="flex flex-col space-y-12">
             <div className="grid grid-cols-2 grid-rows-1 gap-4">
               <div className="space-y-1">
                 <p className="font-semibold">
@@ -154,15 +149,13 @@ export default function Profile() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   variant="filled"
-                  block
+                  className="font-medium"
                   status={errors.name ? "error" : null}
                 />
-                {errors.name && (
-                  <p className="text-red-500">{errors.name}</p>
-                )}
+                {errors.name && <p className="text-red-500">{errors.name}</p>}
               </div>
-              </div>
-              <div className="grid grid-cols-2 grid-rows-1 gap-4">
+            </div>
+            <div className="grid grid-cols-2 grid-rows-1 gap-4">
               <div className="space-y-1">
                 <p className="font-semibold">
                   Role <span className="text-red-500">*</span>
@@ -172,63 +165,58 @@ export default function Profile() {
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
                   variant="filled"
-                  block
+                  className="font-medium"
                   status={errors.role ? "error" : null}
                 />
-                {errors.role && (
-                  <p className="text-red-500">{errors.role}</p>
-                )}
+                {errors.role && <p className="text-red-500">{errors.role}</p>}
               </div>
-              </div>
-               <div className="grid grid-cols-2 grid-rows-1 gap-4">
+            </div>
+            <div className="grid grid-cols-2 grid-rows-1 gap-4">
               <div className="space-y-1">
                 <p className="font-semibold">
-                Company Id <span className="text-red-500">*</span>
+                  Company Id <span className="text-red-500">*</span>
                 </p>
                 <Input
                   size="large"
                   value={companyId}
                   onChange={(e) => setCompanyId(e.target.value)}
                   variant="filled"
-                  block
+                  className="font-medium"
                   status={errors.companyId ? "error" : null}
                 />
-                {errors.companyId && (
-                  <p className="text-red-500">{errors.companyId}</p>
-                )}
+                {errors.companyId && <p className="text-red-500">{errors.companyId}</p>}
               </div>
-              </div>
-              <div className="grid grid-cols-2 grid-rows-1 gap-4">
+            </div>
+            <div className="grid grid-cols-2 grid-rows-1 gap-4">
               <div className="space-y-1">
                 <p className="font-semibold">
-                Mobile Number <span className="text-red-500">*</span>
+                  Mobile Number <span className="text-red-500">*</span>
                 </p>
                 <Input
                   size="large"
                   value={mobileNumber}
                   onChange={(e) => setMobileNumber(e.target.value)}
                   variant="filled"
-                  block
+                  className="font-medium"
                   status={errors.mobileNumber ? "error" : null}
                 />
-                {errors.mobileNumber && (
-                  <p className="text-red-500">{errors.mobileNumber}</p>
-                )}
-              </div>
-              </div>
-              <div className="space-y-1">
-                <p className="font-semibold">Profile Avatar</p>
-
-                <Upload {...fileProps} maxCount={1}>
-                  <Button icon={<UploadOutlined />}>Upload Avatar</Button>
-                </Upload>
+                {errors.mobileNumber && <p className="text-red-500">{errors.mobileNumber}</p>}
               </div>
             </div>
-         
+            <div className="space-y-1">
+              <p className="font-semibold">Profile Avatar</p>
+              <Upload {...fileProps} maxCount={1}>
+                <Button icon={<UploadOutlined />}>Upload Avatar</Button>
+              </Upload>
+            </div>
+          </div>
 
           <div className="flex flex-1 flex-row justify-center">
-          <Button className="w-60 h-14 py-4 px-6 font-poppins font-medium text-[18px] text-primary bg-[#1E4BCA] 
-          bg-blue-gradient rounded-[10px] outline-none" onClick={() => updateHandler()}>
+            <Button
+              className="w-60 h-14 py-4 px-6 font-poppins font-medium text-[18px] text-white bg-[#1E4BCA] bg-blue-gradient rounded-[10px] outline-none"
+              onClick={updateHandler}
+              loading={loading}
+            >
               Save
             </Button>
           </div>

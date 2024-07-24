@@ -122,7 +122,7 @@ export default function Login() {
               <Button
                 type="primary"
                 size="large"
-                block
+                 className="font-medium"
                 onClick={() => loginHandler()}
               >
                 Login

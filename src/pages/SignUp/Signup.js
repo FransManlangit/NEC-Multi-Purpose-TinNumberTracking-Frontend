@@ -192,7 +192,7 @@ export default function Signup() {
               <Button
                 type="primary"
                 size="large"
-                block
+                className="font-semibold"
                 onClick={registerHandler}
                 loading={loading}
               >
