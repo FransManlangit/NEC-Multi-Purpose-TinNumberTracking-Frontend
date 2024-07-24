@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+
+import React, { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { allMembers, clearErrors, deleteMember } from "../../actions/memberActions";
 import { DELETE_MEMBER_RESET } from "../../constants/memberConstants";
@@ -9,42 +8,33 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { TrashIcon, PencilSquareIcon } from "@heroicons/react/16/solid";
+import { Toast } from 'primereact/toast';
+import { Button } from 'primereact/button';
 
 const MemberList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const toastTopCenter = useRef(null);
 
   const { loading, error, members = [] } = useSelector((state) => state.fetchMembers);
   const { isDeleted } = useSelector((state) => state.deleteMember);
 
-  const errMsg = (message = "") =>
-    toast.error(message, {
-      position: toast.POSITION.BOTTOM_CENTER,
-    });
-
-  const successMsg = (message = "") =>
-    toast.success(message, {
-      position: toast.POSITION.BOTTOM_CENTER,
-    });
-
   useEffect(() => {
-    dispatch(allMembers());
+    dispatch(allMembers(toastTopCenter));
 
     if (error) {
-      errMsg(error);
       dispatch(clearErrors());
     }
 
     if (isDeleted) {
-      successMsg("Member deleted successfully");
       dispatch({ type: DELETE_MEMBER_RESET }); // Reset delete state
-      dispatch(allMembers()); // Refresh the member list
+      dispatch(allMembers(toastTopCenter)); // Refresh the member list
     }
   }, [dispatch, error, isDeleted, navigate]);
 
   const deleteMemberHandler = (id) => {
     if (window.confirm("Are you sure you want to delete this member?")) {
-      dispatch(deleteMember(id));
+      dispatch(deleteMember(id, toastTopCenter));
     }
   };
 
@@ -57,18 +47,19 @@ const MemberList = () => {
         >
           <PencilSquareIcon className="w-6 h-6" />
         </Link>
-        <button
+        <Button 
           onClick={() => deleteMemberHandler(rowData._id)}
           className="flex items-center gap-2 rounded-lg py-1.5 px-3 bg-red-500 text-white hover:bg-red-600"
         >
           <TrashIcon className="w-6 h-6" />
-        </button>
+        </Button>
       </div>
     );
   };
 
   return (
     <React.Fragment>
+      <Toast ref={toastTopCenter} position="top-center" />
       <div className="row p-20">
         <div className="col-12 col-md-1"></div>
         <div className="col-12 col-md-10">

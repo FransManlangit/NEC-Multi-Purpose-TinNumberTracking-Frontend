@@ -17,11 +17,9 @@ import {
   DELETE_MEMBER_SUCCESS,
   DELETE_MEMBER_FAIL,
 } from "../constants/memberConstants";
+import { showToast } from "../components/Toast/memberToast"; // Import the showToast utility
 
-
-
-
-export const registerMember = (userData) => async (dispatch) => {
+export const registerMember = (userData, toastRef) => async (dispatch) => {
   try {
     dispatch({ type: REGISTER_MEMBER_REQUEST });
 
@@ -42,16 +40,19 @@ export const registerMember = (userData) => async (dispatch) => {
       type: REGISTER_MEMBER_SUCCESS,
       payload: data.member, // Ensure this matches the API response
     });
+
+    showToast(toastRef, 'success', 'Success', 'Member registered successfully');
   } catch (error) {
     dispatch({
       type: REGISTER_MEMBER_FAIL,
       payload: error.response ? error.response.data.message : error.message,
     });
+
+    showToast(toastRef, 'error', 'Error', error.response ? error.response.data.message : error.message);
   }
 };
 
-
-export const allMembers = () => async (dispatch) => {
+export const allMembers = (toastRef) => async (dispatch) => {
   try {
     dispatch({ type: FETCH_MEMBER_REQUEST });
 
@@ -71,10 +72,12 @@ export const allMembers = () => async (dispatch) => {
       type: FETCH_MEMBER_FAIL,
       payload: error.response ? error.response.data.message : error.message,
     });
+
+    showToast(toastRef, 'error', 'Error', error.response ? error.response.data.message : error.message);
   }
 };
 
-export const singleMember = (id) => async (dispatch) => {
+export const singleMember = (id, toastRef) => async (dispatch) => {
   try {
     dispatch({ type: SINGLE_MEMBER_REQUEST });
 
@@ -91,11 +94,12 @@ export const singleMember = (id) => async (dispatch) => {
       type: SINGLE_MEMBER_FAIL,
       payload: error.response ? error.response.data.message : error.message,
     });
+
+    showToast(toastRef, 'error', 'Error', error.response ? error.response.data.message : error.message);
   }
 };
 
-
-export const updateMember = (id, userData) => async (dispatch) => {
+export const updateMember = (id, userData, toastRef) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_MEMBER_REQUEST });
 
@@ -116,17 +120,19 @@ export const updateMember = (id, userData) => async (dispatch) => {
       type: UPDATE_MEMBER_SUCCESS,
       payload: data.member, // Ensure this matches the API response
     });
+
+    showToast(toastRef, 'success', 'Success', 'Member updated successfully');
   } catch (error) {
     dispatch({
       type: UPDATE_MEMBER_FAIL,
       payload: error.response ? error.response.data.message : error.message,
     });
+
+    showToast(toastRef, 'error', 'Error', error.response ? error.response.data.message : error.message);
   }
 };
 
-
-
-export const deleteMember = (id) => async (dispatch) => {
+export const deleteMember = (id, toastRef) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_MEMBER_REQUEST });
 
@@ -141,23 +147,17 @@ export const deleteMember = (id) => async (dispatch) => {
       type: DELETE_MEMBER_SUCCESS,
       payload: data.success, // Ensure this matches the API response
     });
+
+    showToast(toastRef, 'success', 'Success', 'Member deleted successfully');
   } catch (error) {
     dispatch({
       type: DELETE_MEMBER_FAIL,
       payload: error.response ? error.response.data.message : error.message,
     });
+
+    showToast(toastRef, 'error', 'Error', error.response ? error.response.data.message : error.message);
   }
 };
-
-
-
-
-
-
-
-
-
-
 
 export const clearErrors = () => async (dispatch) => {
   dispatch({
