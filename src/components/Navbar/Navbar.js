@@ -32,17 +32,17 @@ export default function Navbar() {
 
   const logoutHandler = () => {
     dispatch(Logout());
-    navigate("/home");
+    navigate("/");
   };
   return (
     <nav className="flex items-center justify-between flex-wrap py-3 container mx-auto">
       <a className="flex flex-col" href="/">
         <div className="flex flex-row items-center flex-shrink-0 gap-2">
-          <img src="/images/NecLogo.jpg" alt="Nec Logo" className="h-24 w-24" />
+          <img src="/images/NecLogo.png" alt="Nec Logo" className="h-24 w-24" />
           <div className="flex flex-col">
             <span className="font-extrabold text-3xl tracking-normal">
               <p>
-                <span className="text-[#9E2C6A]">Nec Multi-Purpose</span>
+                <span className="text-[#89004A]">Nec Multi-Purpose</span>
               </p>
             </span>
             <span className="text-sm font-medium">
@@ -83,7 +83,7 @@ export default function Navbar() {
           <div>
             {user ? (
               <Menu>
-                <MenuButton className="inline-flex items-center gap-2 rounded-full bg-[#1E4BCA] py-1.5 px-3 text-sm font-semibold text-white shadow-inner shadow-white/10 focus:outline-none hover:bg-[#1E4BCA] open:bg--500/90 focus:outline-white">
+                <MenuButton className="inline-flex items-center gap-2 rounded-full [#1E4BCA] py-1.5 px-3 text-sm font-semibold text-white shadow-inner shadow-white/10 focus:outline-none hover:bg-[#1E4BCA] open:bg--500/90 focus:outline-white">
                   {user?.avatar?.url ? (
                     <img
                       src={user?.avatar?.url}
