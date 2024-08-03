@@ -83,7 +83,7 @@ export default function Navbar() {
           <div>
             {user ? (
               <Menu>
-                <MenuButton className="inline-flex items-center gap-2 rounded-full [#1E4BCA] py-1.5 px-3 text-sm font-semibold text-white shadow-inner shadow-white/10 focus:outline-none hover:bg-[#1E4BCA] open:bg--500/90 focus:outline-white">
+                <MenuButton className="inline-flex items-center gap-2 rounded-full bg-[#1E4BCA] py-1.5 px-3 text-sm font-semibold text-white shadow-inner shadow-white/10 focus:outline-none hover:bg-[#1E4BCA] open:bg--500/90 focus:outline-white">
                   {user?.avatar?.url ? (
                     <img
                       src={user?.avatar?.url}

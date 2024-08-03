@@ -42,7 +42,7 @@ export default function Signup() {
     if (!mobileNumber) {
       errors.mobileNumber = "Mobile number is required";
     } else {
-      const phonePattern = /^[0-9]{10,15}$/; // Adjust the regex according to your phone format
+      const phonePattern = /^[0-9]{10,11}$/; // Adjust the regex according to your phone format
       if (!phonePattern.test(mobileNumber)) {
         errors.mobileNumber = "Invalid mobile number";
       }
@@ -90,12 +90,11 @@ export default function Signup() {
         <div className="flex flex-wrap container items-center bg-white p-8 gap-8">
           <form className="space-y-8 min-w-[30rem] sm:p-0 p-4">
             <div className="flex flex-col items-center justify-center space-y-2">
-              <p className="text-6xl font-extrabold text--500">
-                SariSariCart
+              <p className="text-6xl font-extrabold text-[#1E4BCA]">
+               NECMPC
               </p>
               <span className="text-center">
-                “Join SariSariCart and have fresh flavors delivered to your
-                home!”
+                “A Billionaire Cooperative that is member responsive and socially responsible.”
               </span>
             </div>
             <div className="space-y-3">
