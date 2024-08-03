@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button, Input, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { login, clearErrors } from "../../actions/userActions";
@@ -7,7 +7,6 @@ import { login, clearErrors } from "../../actions/userActions";
 export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +22,6 @@ export default function Login() {
       navigate("/");
     }
     if (error) {
-      console.log("Error", error);
       message.error(error);
       dispatch(clearErrors());
     }
@@ -74,9 +72,8 @@ export default function Login() {
           <form className="space-y-8 min-w-[30rem] sm:p-0 p-4">
             <div className="flex flex-col items-center justify-center space-y-2">
               <p className="text-6xl font-extrabold text-[#1E4BCA]">
-              NECMPC
+                NECMPC
               </p>
-
               <span className="">Empowering Communities Enriching Lives.</span>
             </div>
 
@@ -122,8 +119,9 @@ export default function Login() {
               <Button
                 type="primary"
                 size="large"
-                 className="font-medium"
-                onClick={() => loginHandler()}
+                className="font-medium"
+                onClick={loginHandler}
+                loading={loading}
               >
                 Login
               </Button>

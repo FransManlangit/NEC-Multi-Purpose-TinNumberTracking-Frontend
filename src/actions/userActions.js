@@ -48,6 +48,8 @@ export const register = (userData) => async (dispatch) => {
   }
 };
 
+
+
 export const login = (userData) => async (dispatch) => {
   try {
     dispatch({
@@ -71,12 +73,44 @@ export const login = (userData) => async (dispatch) => {
       payload: data.user,
     });
   } catch (error) {
+    const message = error.response.data.message || "Password incorrect";
     dispatch({
       type: LOGIN_FAIL,
-      payload: error.response.data.message,
+      payload: message,
     });
   }
 };
+
+
+// export const login = (userData) => async (dispatch) => {
+//   try {
+//     dispatch({
+//       type: LOGIN_REQUEST,
+//     });
+
+//     const config = {
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       withCredentials: true,
+//     };
+//     const { data } = await axios.post(
+//       `${process.env.REACT_APP_API}/api/v1/login`,
+//       userData,
+//       config
+//     );
+
+//     dispatch({
+//       type: LOGIN_SUCCESS,
+//       payload: data.user,
+//     });
+//   } catch (error) {
+//     dispatch({
+//       type: LOGIN_FAIL,
+//       payload: error.response.data.message,
+//     });
+//   }
+// };
 
 export const loadUser = () => async (dispatch) => {
   try {
