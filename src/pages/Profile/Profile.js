@@ -27,6 +27,11 @@ export default function Profile() {
   const { user = {} } = useSelector((state) => state.auth || {});
   const { error, isUpdated, loading } = useSelector((state) => state.user || {});
 
+
+  // const { user, isLogout } = useSelector((state) => state.auth);
+
+  // const { error, isUpdated, loading } = useSelector((state) => state.user);
+
   useEffect(() => {
     console.log("user:", user);
     console.log("isUpdated:", isUpdated);
@@ -43,9 +48,13 @@ export default function Profile() {
     if (isUpdated) {
       message.success("Profile Successfully Updated");
       dispatch(loadUser());
-      dispatch({ type: UPDATE_PROFILE_RESET });
+      dispatch({
+        type: UPDATE_PROFILE_RESET,
+      });
+      console.log("Profile updated successfully");  
     }
-
+   
+ 
     if (error) {
       message.error(error);
       dispatch(clearErrors());
@@ -81,6 +90,8 @@ export default function Profile() {
     return Object.keys(errors).length === 0;
   };
 
+  
+
   const fileProps = {
     name: "image",
     multiple: false,
@@ -94,8 +105,11 @@ export default function Profile() {
     },
     beforeUpload: () => false,
     onChange: (info) => {
-      const file = info.fileList[0]?.originFileObj;
+      console.log(info, "info onchange");
 
+      const file = info.fileList[0]?.originFileObj; // Get the actual File/Blob object
+
+      console.log(file, "file onchange");
       if (file) {
         const reader = new FileReader();
 
@@ -104,27 +118,38 @@ export default function Profile() {
         };
 
         reader.readAsDataURL(file);
-        setFileList(info.fileList);
+
+        setFileList(info.fileList); // Update fileList state
       }
     },
   };
 
-  const updateHandler = () => {
+  const updateHandler = async () => {
     if (!validateForm()) {
       return;
     }
-
+  
     const formData = new FormData();
     formData.set("name", name);
     formData.set("role", role);
     formData.set("companyId", companyId);
     formData.set("mobileNumber", mobileNumber);
-
+  
     if (avatar) {
       formData.append("avatar", avatar);
     }
-
-    dispatch(updateProfile(formData));
+  
+    try {
+      // Dispatch the action and wait for it to complete
+      await dispatch(updateProfile(formData));
+      message.success("Profile Successfully Updated");
+      dispatch(loadUser());
+    } catch (error) {
+      
+      // Handle any errors that occur during dispatch
+      console.error("Error updating profile:", error);
+      message.error("Failed to update profile. Please try again.");
+    }
   };
 
   return (
@@ -214,9 +239,7 @@ export default function Profile() {
           <div className="flex flex-1 flex-row justify-center">
             <Button
               className="w-60 h-14 py-4 px-6 font-poppins font-medium text-[18px] text-white bg-[#1E4BCA] bg-blue-gradient rounded-[10px] outline-none"
-              onClick={updateHandler}
-              loading={loading}
-            >
+              onClick={() => updateHandler()}>
               Save
             </Button>
           </div>
