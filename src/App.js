@@ -7,6 +7,7 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import ProtectedRoute from "./components/Route/ProtectedRoute";
 
+
 //Pages
 import Home from "./pages/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
@@ -27,9 +28,9 @@ export default function App() {
   }, []);
 
   return (
+    <PrimeReactProvider>
     <div className="flex flex-col h-screen">
       <Navbar />
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -40,5 +41,6 @@ export default function App() {
       </Routes>
       <Footer />
     </div>
+  </PrimeReactProvider>
   );
 }

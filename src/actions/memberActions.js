@@ -105,20 +105,19 @@ export const updateMember = (id, userData, toastRef) => async (dispatch) => {
 
     const config = {
       headers: {
-        "Content-Type": "application/json", // Change this to application/json
+        "Content-Type": "application/json", 
       },
       withCredentials: true,
     };
 
     const { data } = await axios.put(
-      `${process.env.REACT_APP_API}/api/v1/update/${id}`, // Ensure this matches the backend route
-      userData,
+      `${process.env.REACT_APP_API}/api/v1/update/${id}`, 
       config
     );
 
     dispatch({
       type: UPDATE_MEMBER_SUCCESS,
-      payload: data.member, // Ensure this matches the API response
+      payload: data.member, 
     });
 
     showToast(toastRef, 'success', 'Success', 'Member updated successfully');

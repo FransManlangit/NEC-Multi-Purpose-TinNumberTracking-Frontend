@@ -3,12 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, Input, message, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import { ExclamationCircleIcon } from '@heroicons/react/24/solid';
 import ProfileSidebar from "../../components/Sidebar/ProfileSidebar";
-import {
-  updateProfile,
-  loadUser,
-  clearErrors,
-} from "../../actions/userActions";
+import { updateProfile, loadUser, clearErrors } from "../../actions/userActions";
 import { UPDATE_PROFILE_RESET } from "../../constants/userConstants";
 
 export default function Profile() {
@@ -27,16 +24,7 @@ export default function Profile() {
   const { user = {} } = useSelector((state) => state.auth || {});
   const { error, isUpdated, loading } = useSelector((state) => state.user || {});
 
-
-  // const { user, isLogout } = useSelector((state) => state.auth);
-
-  // const { error, isUpdated, loading } = useSelector((state) => state.user);
-
   useEffect(() => {
-    console.log("user:", user);
-    console.log("isUpdated:", isUpdated);
-    console.log("error:", error);
-
     if (user) {
       setName(user.name);
       setRole(user.role);
@@ -51,10 +39,8 @@ export default function Profile() {
       dispatch({
         type: UPDATE_PROFILE_RESET,
       });
-      console.log("Profile updated successfully");  
     }
-   
- 
+
     if (error) {
       message.error(error);
       dispatch(clearErrors());
@@ -90,7 +76,15 @@ export default function Profile() {
     return Object.keys(errors).length === 0;
   };
 
-  
+  const handleInputChange = (setter, field) => (e) => {
+    setter(e.target.value);
+
+    // Remove error when user starts typing
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [field]: "",
+    }));
+  };
 
   const fileProps = {
     name: "image",
@@ -105,11 +99,7 @@ export default function Profile() {
     },
     beforeUpload: () => false,
     onChange: (info) => {
-      console.log(info, "info onchange");
-
-      const file = info.fileList[0]?.originFileObj; // Get the actual File/Blob object
-
-      console.log(file, "file onchange");
+      const file = info.fileList[0]?.originFileObj;
       if (file) {
         const reader = new FileReader();
 
@@ -119,7 +109,7 @@ export default function Profile() {
 
         reader.readAsDataURL(file);
 
-        setFileList(info.fileList); // Update fileList state
+        setFileList(info.fileList);
       }
     },
   };
@@ -128,25 +118,22 @@ export default function Profile() {
     if (!validateForm()) {
       return;
     }
-  
+
     const formData = new FormData();
     formData.set("name", name);
     formData.set("role", role);
     formData.set("companyId", companyId);
     formData.set("mobileNumber", mobileNumber);
-  
+
     if (avatar) {
       formData.append("avatar", avatar);
     }
-  
+
     try {
-      // Dispatch the action and wait for it to complete
       await dispatch(updateProfile(formData));
       message.success("Profile Successfully Updated");
       dispatch(loadUser());
     } catch (error) {
-      
-      // Handle any errors that occur during dispatch
       console.error("Error updating profile:", error);
       message.error("Failed to update profile. Please try again.");
     }
@@ -164,6 +151,7 @@ export default function Profile() {
             <p className="text-4xl">My Information</p>
           </div>
           <div className="flex flex-col space-y-12">
+            {/* Name */}
             <div className="grid grid-cols-2 grid-rows-1 gap-4">
               <div className="space-y-1">
                 <p className="font-semibold">
@@ -172,14 +160,19 @@ export default function Profile() {
                 <Input
                   size="large"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  variant="filled"
-                  className="font-medium"
-                  status={errors.name ? "error" : null}
+                  onChange={handleInputChange(setName, "name")}
+                  className={`font-medium ${errors.name ? 'border-red-500' : ''}`}
                 />
-                {errors.name && <p className="text-red-500">{errors.name}</p>}
+                {errors.name && (
+                  <p className="text-red-500 flex items-center">
+                    <ExclamationCircleIcon className="h-5 w-5 text-red-500 mr-2" />
+                    {errors.name}
+                  </p>
+                )}
               </div>
             </div>
+
+            {/* Role */}
             <div className="grid grid-cols-2 grid-rows-1 gap-4">
               <div className="space-y-1">
                 <p className="font-semibold">
@@ -188,14 +181,19 @@ export default function Profile() {
                 <Input
                   size="large"
                   value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                  variant="filled"
-                  className="font-medium"
-                  status={errors.role ? "error" : null}
+                  onChange={handleInputChange(setRole, "role")}
+                  className={`font-medium ${errors.role ? 'border-red-500' : ''}`}
                 />
-                {errors.role && <p className="text-red-500">{errors.role}</p>}
+                {errors.role && (
+                  <p className="text-red-500 flex items-center">
+                    <ExclamationCircleIcon className="h-5 w-5 text-red-500 mr-2" />
+                    {errors.role}
+                  </p>
+                )}
               </div>
             </div>
+
+            {/* Company Id */}
             <div className="grid grid-cols-2 grid-rows-1 gap-4">
               <div className="space-y-1">
                 <p className="font-semibold">
@@ -204,14 +202,19 @@ export default function Profile() {
                 <Input
                   size="large"
                   value={companyId}
-                  onChange={(e) => setCompanyId(e.target.value)}
-                  variant="filled"
-                  className="font-medium"
-                  status={errors.companyId ? "error" : null}
+                  onChange={handleInputChange(setCompanyId, "companyId")}
+                  className={`font-medium ${errors.companyId ? 'border-red-500' : ''}`}
                 />
-                {errors.companyId && <p className="text-red-500">{errors.companyId}</p>}
+                {errors.companyId && (
+                  <p className="text-red-500 flex items-center">
+                    <ExclamationCircleIcon className="h-5 w-5 text-red-500 mr-2" />
+                    {errors.companyId}
+                  </p>
+                )}
               </div>
             </div>
+
+            {/* Mobile Number */}
             <div className="grid grid-cols-2 grid-rows-1 gap-4">
               <div className="space-y-1">
                 <p className="font-semibold">
@@ -220,14 +223,19 @@ export default function Profile() {
                 <Input
                   size="large"
                   value={mobileNumber}
-                  onChange={(e) => setMobileNumber(e.target.value)}
-                  variant="filled"
-                  className="font-medium"
-                  status={errors.mobileNumber ? "error" : null}
+                  onChange={handleInputChange(setMobileNumber, "mobileNumber")}
+                  className={`font-medium ${errors.mobileNumber ? 'border-red-500' : ''}`}
                 />
-                {errors.mobileNumber && <p className="text-red-500">{errors.mobileNumber}</p>}
+                {errors.mobileNumber && (
+                  <p className="text-red-500 flex items-center">
+                    <ExclamationCircleIcon className="h-5 w-5 text-red-500 mr-2" />
+                    {errors.mobileNumber}
+                  </p>
+                )}
               </div>
             </div>
+
+            {/* Avatar Upload */}
             <div className="space-y-1">
               <p className="font-semibold">Profile Avatar</p>
               <Upload {...fileProps} maxCount={1}>
@@ -239,7 +247,8 @@ export default function Profile() {
           <div className="flex flex-1 flex-row justify-center">
             <Button
               className="w-60 h-14 py-4 px-6 font-poppins font-medium text-[18px] text-white bg-[#1E4BCA] bg-blue-gradient rounded-[10px] outline-none"
-              onClick={() => updateHandler()}>
+              onClick={() => updateHandler()}
+            >
               Save
             </Button>
           </div>

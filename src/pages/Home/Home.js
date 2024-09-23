@@ -69,20 +69,16 @@ const Home = () => {
         itemTemplate={productTemplate}
       />
       <div className="py-32">
+        <p className="text-5xl">Product & Services</p>
         <Accordion activeIndex={0}>
-          <AccordionTab header="Header I">
-            <p className="m-0">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+          <AccordionTab className="font-bold text-2xl" header="Insurance">
+            <p className="m-0 font-normal font-medium">
+            The National Confederation of Cooperatives Mutual Benefits Association (NATCCO MBA) Inc. was established to extend financial assistance through quality and affordable microinsurance products for its members.
+            NATCCO MBAI partners with cooperatives, associations, and organized groups to ensure their members have access to insurance products that can help them in times of unexpected death or sickness.
             </p>
           </AccordionTab>
-          <AccordionTab header="Header II">
-            <p className="m-0">
+          <AccordionTab className="font-bold text-2xl" header="Credit">
+            <p className="m-0 font-normal font-medium">
               Sed ut perspiciatis unde omnis iste natus error sit voluptatem
               accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
               quae ab illo inventore veritatis et quasi architecto beatae vitae
@@ -92,8 +88,19 @@ const Home = () => {
               velit, sed quia non numquam eius modi.
             </p>
           </AccordionTab>
-          <AccordionTab header="Header III">
-            <p className="m-0">
+          <AccordionTab className="font-bold text-2xl" header="Savings">
+            <p className="m-0 font-normal font-medium">
+              At vero eos et accusamus et iusto odio dignissimos ducimus qui
+              blanditiis praesentium voluptatum deleniti atque corrupti quos
+              dolores et quas molestias excepturi sint occaecati cupiditate non
+              provident, similique sunt in culpa qui officia deserunt mollitia
+              animi, id est laborum et dolorum fuga. Et harum quidem rerum
+              facilis est et expedita distinctio. Nam libero tempore, cum soluta
+              nobis est eligendi optio cumque nihil impedit quo minus.
+            </p>
+          </AccordionTab>
+          <AccordionTab className="font-bold text-2xl" header="Share Capital">
+            <p className="m-0 font-normal font-medium">
               At vero eos et accusamus et iusto odio dignissimos ducimus qui
               blanditiis praesentium voluptatum deleniti atque corrupti quos
               dolores et quas molestias excepturi sint occaecati cupiditate non
@@ -106,10 +113,9 @@ const Home = () => {
         </Accordion>
       </div>
       <div className="bg-auto md:bg-contain p-6">
-
-        <Card title="About Us" subTitle="Card subtitle" className="md:w-25rem">
-        <Image src="/images/nec-2.png" alt="Image"/>
-          <p className="m-0 font-semibold text-black text-base pt-10 ">
+        <Card title="About Us" className="text-black">
+        <Image src="/images/nec-2.png" alt="Image" />
+          <p className="m-0 font-normal text-black text-2xl py-16">
             NEC Multi-Purpose Cooperative is a duly registered Cooperative with
             the Cooperative Development Authority (CDA), the regulatory agency
             of the Government of the Republic of the Philippines over matters
